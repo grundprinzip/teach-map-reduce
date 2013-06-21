@@ -82,6 +82,13 @@ window.init = ->
     mr.execute $("select[name='dataset']").val()
     false
 
+  $("#clear").click ->
+    window.mr = new MapReduceManager()
+    window.cycleCount = 0
+    $(".cycles .inner").html("")
+    do $("#addCycle").click
+    false
+
   $("#addCycle").click (e) ->
     data = """
     <hr />
@@ -89,7 +96,7 @@ window.init = ->
     <p>Map</p>
     <pre id="cycle_#{window.cycleCount}_map" class="editor">
     this.map = function(item) {
-      this.emit(/*item.text*/);
+      this.emit(/*key, value*/);
     };
     </pre>
     <p>Reduce</p>
