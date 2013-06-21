@@ -1,0 +1,16 @@
+#tweet_example {
+  height: 400px;  
+}
+
+.jsoneditor table {
+  background-color: #fff !important;
+}
+
+.cycles textarea {
+  width: 100%;
+}
+
+.cycles .editor {
+   margin: 0;
+   height: 200px;
+}
