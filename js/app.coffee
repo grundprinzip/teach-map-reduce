@@ -46,7 +46,7 @@ class MapReduceManager
 
     callers = @callers
     # Now all the functions are added
-    $.get("/data/#{dataset}", (data) ->
+    $.get("data/#{dataset}", (data) ->
       data = $.parseJSON(data)
       tmp = data
       for c in callers
@@ -63,7 +63,7 @@ window.mr = new MapReduceManager()
 window.cycleCount = 0
 
 window.init = ->
-  $.get "/data/one.json", (data) ->
+  $.get "data/one.json", (data) ->
     data = $.parseJSON(data)
     new jsoneditor.JSONEditor $("#tweet_example")[0], mode: "view", data
 
