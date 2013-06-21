@@ -61,7 +61,7 @@ class MapReduceManager
       # Now all the functions are added
       $.get("data/#{dataset}", (data) ->
         # Cache the data set
-        if !typeof(data) == "object"
+        if typeof(data) != "object"
           data = $.parseJSON(data)
         handle(data)
         )
@@ -76,8 +76,9 @@ window.cycleCount = 0
 
 window.init = ->
   $.get "data/one.json", (data) ->
-    if !typeof(data) == "object"
+    if typeof(data) != "object"
       data = $.parseJSON(data)
+
     new jsoneditor.JSONEditor $("#tweet_example")[0], mode: "view", data
 
   $("#query").click ->
