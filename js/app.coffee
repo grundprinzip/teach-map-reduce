@@ -45,9 +45,9 @@ class MapReduceManager
     this.addCycle new Function(m1 + reducer_data[i]) for m1,i in mapper_data
 
     callers = @callers
-    # Now all the functions are added
-    $.get("data/#{dataset}", (data) ->
-      data = $.parseJSON(data)
+
+    # Function handle to store the data
+    handle = (data) ->
       tmp = data
       for c in callers
         a = (new c()).execute(tmp)
@@ -55,7 +55,18 @@ class MapReduceManager
 
       $("#result").html("")
       result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", tmp
-      )
+
+    if !localStorage.getItem dataset
+
+      # Now all the functions are added
+      $.get("data/#{dataset}", (data) ->
+        # Cache the data set
+        data = $.parseJSON(data)
+        handle(data)
+        )
+    else
+      data = $.parseJSON(localStorage.getItem(dataset))
+      handle(data)
 
 
 window.mr = new MapReduceManager()
@@ -66,7 +77,6 @@ window.init = ->
   $.get "data/one.json", (data) ->
     data = $.parseJSON(data)
     new jsoneditor.JSONEditor $("#tweet_example")[0], mode: "view", data
-
 
   $("#query").click ->
     mr.execute $("select[name='dataset']").val()
