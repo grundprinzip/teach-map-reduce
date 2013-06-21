@@ -89,6 +89,7 @@ window.init = ->
     window.mr = new MapReduceManager()
     window.cycleCount = 0
     $(".cycles .inner").html("")
+    $("#result").html("")
     do $("#addCycle").click
     false
 
