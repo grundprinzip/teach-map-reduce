@@ -13,10 +13,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/jsoneditor-min.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
+    <style>      
     </style>
     
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -28,73 +25,128 @@
   </head>
 
   <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Map Reduce</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-
-      <h1>Map Reduce in the Browser</h1>
-      <p></p>
-
-      <h2>Data Description</h2>
-      <div class="row">
-        <div class="span3">
-          
-          The data on the right is an example tweet from the Twitter data
-          stream. It contains all information to independently process the
-          content of the Tweet. The most important property is
-          <strong>text<strong> property as it contains the text. Of course you
-          can access all the other properties as well and you can use the model
-          to the right as a schematic.
-
-        </div>
-        <div class="span9" id="tweet_example">
-        </div>
-      </div>
-
-      <h2>Map Reduce Workflow</h2>
-      <p>
-        The overall worklow of map reduce is very simple
-      </p>
-
-      <div class="cycles">
-        <div class="inner">
-        </div>
-        <hr />                
-      </div>
-      <div class="row">
-        <div class="span12">
-          <div class="form-actions">
-            <a href="#" id="addCycle" class="btn span2">Add MR Cycle</a>
-        
-            <a href="#" id="query" class="btn btn-success span2">Run</a>
+    <a href="https://github.com/grundprinzip/teach-map-reduce"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    <div id="wrap">
+      <div class="navbar navbar-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">Map Reduce in the Browser</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="http://exascale.info">About</a></li>
+                <li><a href="https://github.com/grundprinzip">Contact</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="span12" id="result">
 
+      <div class="container">
+        <h2>Data Description</h2>
+        <div class="row">
+          <div class="span6">
+            
+            The data on the right is an example tweet from the Twitter data
+            stream. It contains all information to independently process the
+            content of the Tweet. The most important property is
+            <strong>text<strong> property as it contains the text. Of course you
+            can access all the other properties as well and you can use the model
+            to the right as a schematic.
+
+          </div>
+          <div class="span6" id="tweet_example">
+          </div>
         </div>
+
+        <h2>Map Reduce Workflow</h2>
+        <p>
+
+          The overall work-flow of map reduce is very simple: Each iteration a map
+          and reduce function is called on the data. The <code>map()</code>
+          function is a <a
+          href="http://en.wikipedia.org/wiki/Map_(higher-order_function)">transformation</a>
+          of the input into a sequence of results. The <code>reduce()</code>
+          function on the other hand is a <a
+          href="http://en.wikipedia.org/wiki/Fold_(higher-order_function)">folding</a>
+          function that reduces the list of input elements to a single value. </p>
+
+        <p>
+          In the example below, there are two editor fields for each map-reduce
+          cycle. The function definition must be as given by default in these
+          text fields. The <code>map</code> function now should iterate over all
+          input values and <code>emit</code> if desired a key-value pair. For
+          example the input tuple is split into words and every word is emitted
+          with a count of 1. The example call would be: <code>emit(word, 1)</code>
+        </p>
+
+        <p>
+          The second step is the <code>reduce</code> function. For every unique
+          key, the program will invoke the reduce function that can than
+          aggregate the values. Coming back to the above example we can count
+          the total number of occurrences for a single word by checking the
+          length of the input array. The return value of the reduce function
+          should be a single value and will be interpreted as such.
+        </p>
+
+
+        <div class="row">
+          <div class="span9">
+            <div class="cycles">
+              <div class="inner">
+              </div>
+              <hr />                
+            </div>
+          </div>
+          <div class="span3">
+            <h4>Data Sets</h4>
+            <select name="dataset">
+              <option value="data.json">Twitter Stream</option>
+              <option value="prism.json">Twitter #prism</option>
+              <option value="samsung.json">Twitter #samsung</option>
+            </select>
+            <h4>Useful JS Functions</h4>
+            <ul>
+              <li><code>[string].split(value)</code> - Split the string into parts given the value</li>
+              <li><code>$.trim(string)</code> - Remove unnecessary white-spaces</li>
+              <li><code>[string].match(/regex/)</code> - Match the string against a regular expression (e.g. <code>string.match(/^#/)</code> checks if the string contains a # indicating a hash-tag</li>
+              <li><code>string.toLowerCase()</code> - Convert the string to lower case, for easier comparison
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span12">
+            <div class="form-actions">
+              <a href="#" id="addCycle" class="btn span2">Add MR Cycle</a>
+          
+              <a href="#" id="query" class="btn btn-success span2">Run</a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span12" id="result">
+
+          </div>
+        </div>
+        <div id="push"></div>
+      </div> <!-- /container -->
+    </div>
+    <div id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="span8">
+            2013 © <a href="http://exascale.info/members/martin_grund">Martin Grund</a>
+          </div>
+          <div class="span4"></div>
+        </div>        
       </div>
-    </div> <!-- /container -->
+    </div>
+
 
     <!-- Le javascript
     ================================================== -->

@@ -35,7 +35,7 @@ class MapReduceManager
     @mapper_sessions.push ms
     @reducer_sessions.push rs
 
-  execute: ->
+  execute: (dataset)->
     @callers = []
 
     mapper_data = (do session.getValue for session in @mapper_sessions)
@@ -45,9 +45,8 @@ class MapReduceManager
     this.addCycle new Function(m1 + reducer_data[i]) for m1,i in mapper_data
 
     callers = @callers
-    console.log @callers
     # Now all the functions are added
-    $.get("/data/data.json", (data) ->
+    $.get("/data/#{dataset}", (data) ->
       data = $.parseJSON(data)
       tmp = data
       for c in callers
@@ -70,7 +69,7 @@ window.init = ->
 
 
   $("#query").click ->
-    do mr.execute
+    mr.execute $("select[name='dataset']").val()
     false
 
   $("#addCycle").click (e) ->
@@ -80,13 +79,13 @@ window.init = ->
     <p>Map</p>
     <pre id="cycle_#{window.cycleCount}_map" class="editor">
     this.map = function(item) {
-      return emit(/*...*/);
+      this.emit(/*item.text*/);
     };
     </pre>
     <p>Reduce</p>
     <pre id="cycle_#{window.cycleCount}_reduce" class="editor">
     this.reduce = function(key, values) {
-      return emit(/*...*/);
+      return /* anything */;
     };
     </pre>
     """
@@ -105,3 +104,5 @@ window.init = ->
     mr.addSession editor_map.getSession(), editor_reduce.getSession()
 
     false
+
+  $("#addCycle").click()
