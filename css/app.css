@@ -22,6 +22,14 @@ body {
   
 }
 
+p {
+  text-indent: 20px;
+}
+
+.noindent {
+  text-indent: 0 !important;
+}
+
 #tweet_example {
   height: 400px;  
 }

@@ -51,12 +51,21 @@
         <div class="row">
           <div class="span6">
             
-            The data on the right is an example tweet from the Twitter data
+            <p class="noindent">The data on the right is an example tweet from the Twitter data
             stream. It contains all information to independently process the
             content of the Tweet. The most important property is
             <strong>text</strong> property as it contains the text. Of course you
             can access all the other properties as well and you can use the model
-            to the right as a schematic.
+            to the right as a schematic.</p>
+
+            <p>
+              So, what can we do with this data? 
+            </p>
+
+            <ul>
+              <li>Trending Topics - Extract most frequent terms</li>
+              <li><a href="https://en.wikipedia.org/wiki/Sentiment_analysis">Sentiment Analysis</a> - extract subject subjective information about the text.</li>
+            </ul>
 
           </div>
           <div class="span6" id="tweet_example">
@@ -64,7 +73,7 @@
         </div>
 
         <h2>Map Reduce Workflow</h2>
-        <p>
+        <p class="noindent">
 
           The overall work-flow of map reduce is very simple: Each iteration a map
           and reduce function is called on the data. The <code>map()</code>
@@ -111,6 +120,7 @@
             </select>
             <h4>Useful JS Functions</h4>
             <ul>
+              <li><code>this.emit(key,value)</code> - Emits a key value pair in the map phase. All values with the same key are grouped together</li>
               <li><code>[string].split(value)</code> - Split the string into parts given the value</li>
               <li><code>$.trim(string)</code> - Remove unnecessary white-spaces</li>
               <li><code>[string].match(/regex/)</code> - Match the string against a regular expression (e.g. <code>string.match(/^#/)</code> checks if the string contains a # indicating a hash-tag</li>
