@@ -102,6 +102,9 @@
           should be a single value and will be interpreted as such.
         </p>
 
+        <p> The limitation of this implementation is that it is currently
+          limited to sequential map-reduce plans. </p>
+
 
         <div class="row">
           <div class="span9">
@@ -122,7 +125,7 @@
             <ul>
               <li><code>this.emit(key,value)</code> - Emits a key value pair in the map phase. All values with the same key are grouped together</li>
               <li><code>[string].split(value)</code> - Split the string into parts given the value</li>
-              <li><code>$.trim(string)</code> - Remove unnecessary white-spaces</li>
+              <li><code>[string].trim()</code> - Remove unnecessary white-spaces</li>
               <li><code>[string].match(/regex/)</code> - Match the string against a regular expression (e.g. <code>string.match(/^#/)</code> checks if the string contains a # indicating a hash-tag</li>
               <li><code>string.toLowerCase()</code> - Convert the string to lower case, for easier comparison
             </ul>
@@ -152,8 +155,9 @@
           <div class="span8">
             2013 © <a href="http://exascale.info/members/martin_grund">Martin Grund</a>
           </div>
-          <div class="span4"></div>
-        </div>        
+          <div class="span4" id="msg">
+          </div>
+        </div>
       </div>
     </div>
 
