@@ -23,23 +23,31 @@ extendFunction = function(body) {
     return this.mapResult[key].push(value);
   };
   f.prototype.wrapMap = function(data) {
-    var l, _i, _len, _results;
-    _results = [];
+    var end, l, start, _i, _len;
+    start = new Date().getTime();
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       l = data[_i];
-      _results.push(this.map(l));
+      this.map(l);
+      end = new Date().getTime();
     }
-    return _results;
+    return postMessage("Map -> " + (end - start) + "ms / " + data.length + "<br/>");
   };
   f.prototype.wrapReduce = function() {
-    var k, v, _ref, _results;
-    _ref = this.mapResult;
-    _results = [];
-    for (k in _ref) {
-      v = _ref[k];
-      _results.push(this.reduce(k, v));
-    }
-    return _results;
+    var end, k, result, start, v;
+    start = new Date().getTime();
+    result = (function() {
+      var _ref, _results;
+      _ref = this.mapResult;
+      _results = [];
+      for (k in _ref) {
+        v = _ref[k];
+        _results.push(this.reduce(k, v));
+      }
+      return _results;
+    }).call(this);
+    end = new Date().getTime();
+    postMessage("Reduce -> " + (end - start) + "ms /  " + (Object.keys(this.mapResult).length) + "</br>");
+    return result;
   };
   f.prototype.execute = function(data) {
     this.wrapMap(data);
@@ -59,14 +67,17 @@ handleExecute = function(data) {
   tmp = data.data;
   for (_j = 0, _len1 = funs.length; _j < _len1; _j++) {
     f = funs[_j];
+    postMessage("Calling MR Cycle<br/>");
     a = (new f()).execute(tmp);
     tmp = a;
   }
+  postMessage("Finalizing...<br/>");
   return postMessage(tmp);
 };
 
 this.addEventListener("message", function(e) {
   var data;
+  postMessage("Received execute...<br/>");
   data = e.data;
   switch (data.cmd) {
     case "execute":

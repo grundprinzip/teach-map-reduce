@@ -7,67 +7,9 @@ class MapReduceManager
     @mapper_sessions = []
     @reducer_sessions = []
 
-  # addCycle: (fun) ->
-  #   # fun is a prototype so add the to important methods
-  #   fun::mapResult = {}
-  #   fun::reduceResult = []
-
-  #   # Called by the map function
-  #   fun::emit = (key, value)->
-  #     if !@mapResult[key]
-  #       @mapResult[key] = []
-
-  #     @mapResult[key].push value
-
-  #   fun::wrapMap = (data) ->
-  #     this.map l for l in data
-
-  #   fun::wrapReduce = ->
-  #     this.reduce k,v for k,v of @mapResult
-
-  #   fun::execute = (data) ->
-  #     this.wrapMap(data)
-  #     do this.wrapReduce
-
-  #   @callers.push fun
-
   addSession: (ms, rs) ->
     @mapper_sessions.push ms
     @reducer_sessions.push rs
-
-  # execute: (dataset)->
-  #   @callers = []
-
-  #   mapper_data = (do session.getValue for session in @mapper_sessions)
-  #   reducer_data = (do session.getValue for session in @reducer_sessions)
-
-  #   # Add A new MR for each cycle to the global list
-  #   this.addCycle new Function(m1 + reducer_data[i]) for m1,i in mapper_data
-
-  #   callers = @callers
-
-  #   # Function handle to store the data
-  #   handle = (data) ->
-  #     tmp = data
-  #     for c in callers
-  #       a = (new c()).execute(tmp)
-  #       tmp = a
-
-  #     $("#result").html("")
-  #     result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", tmp
-
-  #   if !localStorage.getItem dataset
-
-  #     # Now all the functions are added
-  #     $.get("data/#{dataset}", (data) ->
-  #       # Cache the data set
-  #       if typeof(data) != "object"
-  #         data = $.parseJSON(data)
-  #       handle(data)
-  #       )
-  #   else
-  #     data = $.parseJSON(localStorage.getItem(dataset))
-  #     handle(data)
 
 
 window.mr = new Worker("js/worker.js")
@@ -79,7 +21,7 @@ window.mr.onmessage = (e) ->
     $("#result").html("")
     result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", e.data
   else
-    console.log(e.data)
+    $("#msg").append(e.data)    
 
 
 window.cycleCount = 0
@@ -92,6 +34,7 @@ window.init = ->
     new jsoneditor.JSONEditor $("#tweet_example")[0], mode: "view", data
 
   $("#query").click ->
+    $("#msg").html("")
     # Collect all mappers and reducers
     list = (window.storage.mapper_sessions[idx].getValue() + window.storage.reducer_sessions[idx].getValue() for idx in [0..window.cycleCount-1])
     dataset = $("select[name='dataset']").val()

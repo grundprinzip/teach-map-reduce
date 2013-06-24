@@ -5,10 +5,10 @@ this.map = function(item) {
   }  
 };
 
-
 this.reduce = function(key, values) {
   return {"key": key, "count": values.length};
 };
+
 
 
 this.map = function(item) {
