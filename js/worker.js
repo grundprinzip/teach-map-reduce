@@ -3,7 +3,13 @@ var $, STOP_WORDS_EN, console, extendFunction, funs, handleExecute, self;
 
 $ = {
   trim: function(data) {
-    return data.trim();
+    var d;
+    if (!data.trim) {
+      d = data.replace(/^\s+/, "");
+      return d.replace(/\s+$/, "");
+    } else {
+      return data.trim();
+    }
   }
 };
 
