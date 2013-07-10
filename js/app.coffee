@@ -18,8 +18,11 @@ window.storage = new MapReduceManager()
 # Debug only
 window.mr.onmessage = (e) ->
   if typeof e.data is "object"
-    $("#result").html("")
-    result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", e.data
+    if e.data.console
+      console.log e.data.console
+    else 
+      $("#result").html("")
+      result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", e.data    
   else
     $("#msg").append(e.data)    
 
