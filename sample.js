@@ -20,3 +20,16 @@ this.map = function(item) {
 this.reduce = function(key, values) {
   return values[0];
 }
+
+
+this.map = function(item) {
+  var t = item.text.toLowerCase();
+  if (t.match(/love/)) {
+      this.emit("love", item.text);
+  }
+};
+
+
+this.reduce = function(key, values) {
+  return {k: key, v: values.length};
+};
