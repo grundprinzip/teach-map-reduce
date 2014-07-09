@@ -2,7 +2,7 @@ class MapReduceManager
 
   constructor: ->
     @callers = []
-    
+
     # Editor Sessions
     @mapper_sessions = []
     @reducer_sessions = []
@@ -20,11 +20,11 @@ window.mr.onmessage = (e) ->
   if typeof e.data is "object"
     if e.data.console
       console.log e.data.console
-    else 
+    else
       $("#result").html("")
-      result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", e.data    
+      result = new jsoneditor.JSONEditor $("#result")[0], mode: "view", e.data
   else
-    $("#msg").append(e.data)    
+    $("#msg").append(e.data)
 
 
 window.cycleCount = 0
@@ -44,7 +44,7 @@ window.init = ->
     $.get "data/#{dataset}", (data) ->
       if typeof(data) != "object"
         data = $.parseJSON(data)
-      mr.postMessage 
+      mr.postMessage
         cmd: "execute"
         data: data
         funs: list
@@ -77,7 +77,7 @@ window.init = ->
     </pre>
     """
     $(".cycles .inner").append(data);
-    
+
     # Initialize the editor for each cycle
     editor_map = ace.edit("cycle_#{window.cycleCount}_map")
     editor_map.setTheme("ace/theme/chrome")
